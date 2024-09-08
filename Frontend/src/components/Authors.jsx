@@ -1,14 +1,11 @@
-import { useState } from 'react'
-import { useMutation } from '@apollo/client'
-import { ALL_AUTHORS, EDIT_BORN } from '../query/gql'
+import { useState } from "react"
+import { useMutation } from "@apollo/client"
+import { ALL_AUTHORS, EDIT_BORN } from "../query/gql"
 const Authors = (props) => {
-  const [born, setBorn] = useState('')
-  const [author, setAuthor] = useState('')
+  const [born, setBorn] = useState("")
+  const [author, setAuthor] = useState("")
 
-  if (!props.show) {
-    return null
-  }
-  console.log('Props data', props)
+  console.log("Props data", props)
   const authors = props.authors
 
   const [updateAuthor] = useMutation(EDIT_BORN, {
@@ -20,9 +17,12 @@ const Authors = (props) => {
     updateAuthor({
       variables: { name: author, born: Number(born) },
     })
-    setBorn('')
-    setAuthor('')
+    setBorn("")
+    setAuthor("")
   }
+
+  if (props.loadingData) return <div>Author Loading...</div>
+  if (props.errorData) return <div>Author Error</div>
 
   return (
     <div>
@@ -67,7 +67,7 @@ const Authors = (props) => {
             onChange={({ target }) => setBorn(target.value)}
           />
         </div>
-        <button type='submit'>update author</button>
+        <button type="submit">update author</button>
       </form>
     </div>
   )
